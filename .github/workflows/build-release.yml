@@ -1,0 +1,117 @@
+name: Build and release Windows installer
+
+run-name: Build ${{ github.ref_name }} by @${{ github.actor }}
+
+on:
+  push:
+    branches:
+      - main
+    tags:
+      - 'v*'
+  pull_request:
+    branches:
+      - main
+  workflow_dispatch:
+
+jobs:
+  build-installer:
+    name: Build Windows installer
+    runs-on: windows-latest
+    permissions:
+      contents: read
+    outputs:
+      installer_version: ${{ steps.version.outputs.installer_version }}
+
+    steps:
+      - name: Check out source
+        uses: actions/checkout@v4
+
+      - name: Set up .NET 8
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: 8.0.x
+
+      - name: Restore dependencies
+        run: dotnet restore DwgTimedEncryptor.Windows.csproj -r win-x64
+
+      - name: Build application
+        run: dotnet build DwgTimedEncryptor.Windows.csproj -c Release -r win-x64 --no-restore
+
+      - name: Publish self-contained application
+        run: >
+          dotnet publish DwgTimedEncryptor.Windows.csproj -c Release -r win-x64
+          --self-contained true -p:PublishSingleFile=true --no-restore
+
+      - name: Determine installer version
+        id: version
+        shell: pwsh
+        run: |
+          if ($env:GITHUB_REF_TYPE -eq 'tag') {
+            $version = $env:GITHUB_REF_NAME -replace '^v', ''
+            if ($version -notmatch '^\d+\.\d+\.\d+$') {
+              throw "Release tag must use vX.Y.Z format; received '$env:GITHUB_REF_NAME'."
+            }
+          }
+          else {
+            $version = "0.0.0.$env:GITHUB_RUN_NUMBER"
+          }
+
+          "installer_version=$version" >> $env:GITHUB_OUTPUT
+
+      - name: Build Inno Setup installer
+        shell: pwsh
+        env:
+          INSTALLER_VERSION: ${{ steps.version.outputs.installer_version }}
+        run: |
+          $candidates = @(
+            "${env:ProgramFiles(x86)}\Inno Setup 6\ISCC.exe",
+            "${env:ProgramFiles}\Inno Setup 6\ISCC.exe"
+          )
+          $iscc = $candidates | Where-Object { Test-Path $_ } | Select-Object -First 1
+          if (-not $iscc) {
+            throw 'Inno Setup Compiler (ISCC.exe) was not found on the runner.'
+          }
+
+          & $iscc "/DAppVersion=$env:INSTALLER_VERSION" 'Installer\ecrypt4Dwg.iss'
+          if ($LASTEXITCODE -ne 0) {
+            exit $LASTEXITCODE
+          }
+
+      - name: Verify installer output
+        shell: pwsh
+        run: |
+          $installer = 'dist\ecrypt4Dwg-Setup.exe'
+          if (-not (Test-Path $installer)) {
+            throw "Installer was not generated: $installer"
+          }
+
+      - name: Upload installer artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: ecrypt4Dwg-Setup-${{ steps.version.outputs.installer_version }}
+          path: dist/ecrypt4Dwg-Setup.exe
+          if-no-files-found: error
+          retention-days: 14
+
+  publish-release:
+    name: Publish GitHub Release
+    needs: build-installer
+    if: github.event_name == 'push' && github.ref_type == 'tag'
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+
+    steps:
+      - name: Download installer artifact
+        uses: actions/download-artifact@v4
+        with:
+          name: ecrypt4Dwg-Setup-${{ needs.build-installer.outputs.installer_version }}
+          path: release
+
+      - name: Create GitHub Release
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          gh release create "$GITHUB_REF_NAME" "release/ecrypt4Dwg-Setup.exe" \
+            --title "ecrypt4Dwg $GITHUB_REF_NAME" \
+            --generate-notes

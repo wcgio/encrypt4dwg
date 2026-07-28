@@ -2,7 +2,9 @@
 ;   iscc Installer\ecrypt4Dwg.iss
 
 #define AppName "ecrypt4Dwg"
+#ifndef AppVersion
 #define AppVersion "1.0.0"
+#endif
 #define AppPublisher ""
 #define AppExeName "ecrypt4Dwg.exe"
 #define PublishDir "..\bin\Release\net8.0-windows\win-x64\publish"

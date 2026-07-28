@@ -82,6 +82,23 @@ dist\ecrypt4Dwg-Setup.exe
 
 安装器默认安装到 `C:\Program Files\ecrypt4Dwg`，并允许用户在安装向导中选择其他目录。它会创建开始菜单快捷方式，并可选创建桌面快捷方式；卸载时会删除 `ecrypt4DwgCheck` 计划任务。
 
+## GitHub 自动构建与发布
+
+仓库中的 `.github/workflows/build-release.yml` 会在 GitHub 的 Windows Runner 上自动执行以下流程：还原并编译 .NET 8 项目、发布 `win-x64` 自包含程序、使用 Inno Setup 生成安装包，并上传安装包作为 Actions artifact。每次推送 `main` 或向 `main` 提交 Pull Request 都会执行构建验证。
+
+当推送符合 `vX.Y.Z` 格式的版本标签时，例如 `v1.2.0`，工作流还会自动创建同名 GitHub Release，将安装包作为 Release 附件上传，并把安装包内部版本设为 `1.2.0`。
+
+完成一次正式发布：
+
+```powershell
+git switch main
+git pull --ff-only origin main
+git tag v1.2.0
+git push origin v1.2.0
+```
+
+随后在 GitHub 仓库的 **Actions** 页面查看构建日志；成功后，在 **Releases** 页面下载 `ecrypt4Dwg-Setup.exe`。标签必须以 `v` 开头且版本为三段数字，否则工作流会拒绝发布，避免产生含糊版本号。
+
 ### 常见问题
 
 - **提示找不到 `publish` 中的文件**：先在仓库根目录执行完整的 `dotnet publish` 命令，再重新编译 `.iss` 脚本。安装脚本中的源路径是相对 `Installer` 目录计算的，不能单独复制 `.iss` 文件到其他位置编译。
