@@ -113,5 +113,6 @@ jobs:
           GH_TOKEN: ${{ github.token }}
         run: |
           gh release create "$GITHUB_REF_NAME" "release/ecrypt4Dwg-Setup.exe" \
+            --repo "$GITHUB_REPOSITORY" \
             --title "ecrypt4Dwg $GITHUB_REF_NAME" \
             --generate-notes
