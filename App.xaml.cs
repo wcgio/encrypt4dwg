@@ -11,8 +11,8 @@ public partial class App : Application
         {
             StartupDiagnostics.Write(args.Exception);
             MessageBox.Show(
-                $"ecrypt4Dwg 发生未处理错误。详细信息已写入：\n{StartupDiagnostics.LogPath}",
-                "ecrypt4Dwg",
+                $"encrypt4dwg 发生未处理错误。详细信息已写入：\n{StartupDiagnostics.LogPath}",
+                "encrypt4dwg",
                 MessageBoxButton.OK,
                 MessageBoxImage.Error);
             args.Handled = true;
@@ -36,8 +36,8 @@ public partial class App : Application
         {
             StartupDiagnostics.Write(exception);
             MessageBox.Show(
-                $"ecrypt4Dwg 无法启动。详细信息已写入：\n{StartupDiagnostics.LogPath}",
-                "ecrypt4Dwg",
+                $"encrypt4dwg 无法启动。详细信息已写入：\n{StartupDiagnostics.LogPath}",
+                "encrypt4dwg",
                 MessageBoxButton.OK,
                 MessageBoxImage.Error);
             Shutdown();

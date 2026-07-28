@@ -1,12 +1,12 @@
 ; 在 Windows 上使用 Inno Setup 6 编译：
 ;   iscc Installer\ecrypt4Dwg.iss
 
-#define AppName "ecrypt4Dwg"
+#define AppName "encrypt4dwg"
 #ifndef AppVersion
 #define AppVersion "1.0.0"
 #endif
 #define AppPublisher ""
-#define AppExeName "ecrypt4Dwg.exe"
+#define AppExeName "encrypt4dwg.exe"
 #define PublishDir "..\bin\Release\net8.0-windows\win-x64\publish"
 
 [Setup]
@@ -18,7 +18,7 @@ DefaultDirName={autopf}\{#AppName}
 DefaultGroupName={#AppName}
 DisableProgramGroupPage=yes
 OutputDir=..\dist
-OutputBaseFilename=ecrypt4Dwg-Setup
+OutputBaseFilename=encrypt4dwg-Setup
 SetupIconFile=..\Assets\ecrypt4Dwg.ico
 Compression=lzma2
 SolidCompression=yes

@@ -2,7 +2,7 @@
 
 ## Project Structure
 
-This repository contains the Windows 10/11 desktop application `ecrypt4Dwg`.
+This repository contains the Windows 10/11 desktop application `encrypt4dwg`.
 
 - `App.xaml` and `App.xaml.cs` handle application startup and diagnostics.
 - `MainWindow.xaml` and its code-behind provide the WPF interface.
@@ -24,7 +24,7 @@ dotnet build -c Release --no-restore
 dotnet publish -c Release -r win-x64 --self-contained true -p:PublishSingleFile=true --no-restore
 ```
 
-The published application is `bin\Release\net8.0-windows\win-x64\publish\ecrypt4Dwg.exe`. Generate the installer with Inno Setup 6:
+The published application is `bin\Release\net8.0-windows\win-x64\publish\encrypt4dwg.exe`. Generate the installer with Inno Setup 6:
 
 ```powershell
 & "C:\Program Files (x86)\Inno Setup 6\ISCC.exe" Installer\ecrypt4Dwg.iss

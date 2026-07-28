@@ -80,7 +80,7 @@ jobs:
       - name: Verify installer output
         shell: pwsh
         run: |
-          $installer = 'dist\ecrypt4Dwg-Setup.exe'
+          $installer = 'dist\encrypt4dwg-Setup.exe'
           if (-not (Test-Path $installer)) {
             throw "Installer was not generated: $installer"
           }
@@ -88,8 +88,8 @@ jobs:
       - name: Upload installer artifact
         uses: actions/upload-artifact@v4
         with:
-          name: ecrypt4Dwg-Setup-${{ steps.version.outputs.installer_version }}
-          path: dist/ecrypt4Dwg-Setup.exe
+          name: encrypt4dwg-Setup-${{ steps.version.outputs.installer_version }}
+          path: dist/encrypt4dwg-Setup.exe
           if-no-files-found: error
           retention-days: 14
 
@@ -105,14 +105,14 @@ jobs:
       - name: Download installer artifact
         uses: actions/download-artifact@v4
         with:
-          name: ecrypt4Dwg-Setup-${{ needs.build-installer.outputs.installer_version }}
+          name: encrypt4dwg-Setup-${{ needs.build-installer.outputs.installer_version }}
           path: release
 
       - name: Create GitHub Release
         env:
           GH_TOKEN: ${{ github.token }}
         run: |
-          gh release create "$GITHUB_REF_NAME" "release/ecrypt4Dwg-Setup.exe" \
+          gh release create "$GITHUB_REF_NAME" "release/encrypt4dwg-Setup.exe" \
             --repo "$GITHUB_REPOSITORY" \
-            --title "ecrypt4Dwg $GITHUB_REF_NAME" \
+            --title "encrypt4dwg $GITHUB_REF_NAME" \
             --generate-notes

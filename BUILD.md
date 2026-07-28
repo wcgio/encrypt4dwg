@@ -1,6 +1,6 @@
-# ecrypt4Dwg 构建与打包指南
+# encrypt4dwg 构建与打包指南
 
-本项目面向 Windows 10/11 发布，最终交付物为安装程序 `ecrypt4Dwg-Setup.exe`，而不是 .NET 的 `publish` 构建目录或 ZIP 文件。
+本项目面向 Windows 10/11 发布，最终交付物为安装程序 `encrypt4dwg-Setup.exe`，而不是 .NET 的 `publish` 构建目录或 ZIP 文件。
 
 ## 前置条件
 
@@ -39,7 +39,7 @@ dotnet publish -c Release -r win-x64 --self-contained true -p:PublishSingleFile=
 bin\Release\net8.0-windows\win-x64\publish\
 ```
 
-主程序是 `ecrypt4Dwg.exe`。虽然启用了单文件发布，WPF 仍可能包含若干原生 DLL；测试或运行时必须保留发布目录内的全部文件。
+主程序是 `encrypt4dwg.exe`。虽然启用了单文件发布，WPF 仍可能包含若干原生 DLL；测试或运行时必须保留发布目录内的全部文件。
 
 ## 生成安装程序
 
@@ -55,14 +55,14 @@ bin\Release\net8.0-windows\win-x64\publish\
 2. 确认上面的 `dotnet publish` 已经成功执行，且下列文件存在：
 
    ```text
-   bin\Release\net8.0-windows\win-x64\publish\ecrypt4Dwg.exe
+   bin\Release\net8.0-windows\win-x64\publish\encrypt4dwg.exe
    ```
 
 3. 在开始菜单搜索并打开 **Inno Setup Compiler**。
 4. 在菜单中选择 **File → Open**，打开项目中的 `Installer\ecrypt4Dwg.iss`。
 5. 检查窗口下方的输出区域没有脚本错误后，选择 **Build → Compile**，或直接按 `Ctrl+F9`。
 6. 等待状态显示编译完成；选择 **Build → Open Output Folder**，或在资源管理器打开 `dist` 目录。
-7. 生成的 `ecrypt4Dwg-Setup.exe` 就是应交付给最终用户的安装程序。双击它会进入安装向导，默认安装至 `C:\Program Files\ecrypt4Dwg`，用户可自行更改目录。
+7. 生成的 `encrypt4dwg-Setup.exe` 就是应交付给最终用户的安装程序。双击它会进入安装向导，默认安装至 `C:\Program Files\encrypt4dwg`，用户可自行更改目录。
 
 ### 命令行方式
 
@@ -77,10 +77,10 @@ bin\Release\net8.0-windows\win-x64\publish\
 生成结果：
 
 ```text
-dist\ecrypt4Dwg-Setup.exe
+dist\encrypt4dwg-Setup.exe
 ```
 
-安装器默认安装到 `C:\Program Files\ecrypt4Dwg`，并允许用户在安装向导中选择其他目录。它会创建开始菜单快捷方式，并可选创建桌面快捷方式；卸载时会删除 `ecrypt4DwgCheck` 计划任务。
+安装器默认安装到 `C:\Program Files\encrypt4dwg`，并允许用户在安装向导中选择其他目录。它会创建开始菜单快捷方式，并可选创建桌面快捷方式；卸载时会删除 `ecrypt4DwgCheck` 计划任务。
 
 ## GitHub 自动构建与发布
 
@@ -97,23 +97,23 @@ git tag v1.2.0
 git push origin v1.2.0
 ```
 
-随后在 GitHub 仓库的 **Actions** 页面查看构建日志；成功后，在 **Releases** 页面下载 `ecrypt4Dwg-Setup.exe`。标签必须以 `v` 开头且版本为三段数字，否则工作流会拒绝发布，避免产生含糊版本号。
+随后在 GitHub 仓库的 **Actions** 页面查看构建日志；成功后，在 **Releases** 页面下载 `encrypt4dwg-Setup.exe`。标签必须以 `v` 开头且版本为三段数字，否则工作流会拒绝发布，避免产生含糊版本号。
 
 ### 常见问题
 
 - **提示找不到 `publish` 中的文件**：先在仓库根目录执行完整的 `dotnet publish` 命令，再重新编译 `.iss` 脚本。安装脚本中的源路径是相对 `Installer` 目录计算的，不能单独复制 `.iss` 文件到其他位置编译。
 - **安装时要求管理员权限**：这是预期行为，因为默认目录为 `Program Files`。以管理员身份运行安装程序，或在安装向导中改用当前用户有写权限的目录。
-- **Windows SmartScreen 警告**：未签名的新安装包可能触发提示。正式对外交付前应使用企业代码签名证书为 `ecrypt4Dwg-Setup.exe` 签名。
-- **只复制 `ecrypt4Dwg.exe` 后无法运行**：不要单独复制 EXE；应交付安装器，或在测试时复制整个 `publish` 目录。
+- **Windows SmartScreen 警告**：未签名的新安装包可能触发提示。正式对外交付前应使用企业代码签名证书为 `encrypt4dwg-Setup.exe` 签名。
+- **只复制 `encrypt4dwg.exe` 后无法运行**：不要单独复制 EXE；应交付安装器，或在测试时复制整个 `publish` 目录。
 
 ## 验证与交付
 
 在干净的 Windows 10/11 虚拟机或测试电脑上执行：
 
-1. 运行 `dist\ecrypt4Dwg-Setup.exe` 并完成安装。
-2. 启动 `ecrypt4Dwg`，选择一个无敏感内容的测试文件；默认时间为 30 天后的 `00:00:00`，也可手动填写精确到秒的锁定时间。
+1. 运行 `dist\encrypt4dwg-Setup.exe` 并完成安装。
+2. 启动 `encrypt4dwg`，选择一个无敏感内容的测试文件；默认时间为 30 天后的 `00:00:00`，也可手动填写精确到秒的锁定时间。
 3. 确认私钥保存到项目目录以外的位置，并确认 Windows 任务计划程序存在 `ecrypt4DwgCheck`。
 4. 到期后确认原文件被删除、同目录生成 `.locked` 文件。
 5. 使用保存的私钥执行界面中的“使用私钥解锁”，确认恢复内容与原文件一致。
 
-对外发布前建议为 `dist\ecrypt4Dwg-Setup.exe` 进行 Windows 代码签名，以减少 SmartScreen 警告；不要将测试私钥、DWG 文件或本地注册表纳入安装包。
+对外发布前建议为 `dist\encrypt4dwg-Setup.exe` 进行 Windows 代码签名，以减少 SmartScreen 警告；不要将测试私钥、DWG 文件或本地注册表纳入安装包。

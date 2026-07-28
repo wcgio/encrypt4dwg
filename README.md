@@ -1,6 +1,6 @@
-# ecrypt4Dwg
+# encrypt4dwg
 
-`ecrypt4Dwg` 是面向 Windows 10/11 的 DWG 定时加密桌面工具，使用 C#、WPF 和 .NET 8 实现。
+`encrypt4dwg` 是面向 Windows 10/11 的 DWG 定时加密桌面工具，使用 C#、WPF 和 .NET 8 实现。
 
 ## 功能
 
@@ -12,7 +12,7 @@
 
 ## 构建与安装
 
-完整构建、发布、Inno Setup 打包和验证步骤见 [BUILD.md](BUILD.md)。正式交付物是 `dist\ecrypt4Dwg-Setup.exe`。
+完整构建、发布、Inno Setup 打包和验证步骤见 [BUILD.md](BUILD.md)。正式交付物是 `dist\encrypt4dwg-Setup.exe`。
 
 ## 安全边界
 

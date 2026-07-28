@@ -6,10 +6,14 @@
     <EnableWindowsTargeting>true</EnableWindowsTargeting>
     <Nullable>enable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
-    <AssemblyName>ecrypt4Dwg</AssemblyName>
-    <Product>ecrypt4Dwg</Product>
-    <Title>ecrypt4Dwg</Title>
+    <AssemblyName>encrypt4dwg</AssemblyName>
+    <Product>encrypt4dwg</Product>
+    <Title>encrypt4dwg</Title>
     <ApplicationIcon>Assets\ecrypt4Dwg.ico</ApplicationIcon>
     <ApplicationManifest>app.manifest</ApplicationManifest>
   </PropertyGroup>
+
+  <ItemGroup>
+    <Resource Include="Assets\ecrypt4Dwg.ico" />
+  </ItemGroup>
 </Project>
