@@ -1,0 +1,22 @@
+# .NET build artifacts
+bin/
+obj/
+dist/
+
+# IDE and operating-system files
+.vs/
+.idea/
+*.user
+*.suo
+.DS_Store
+
+# Release archives and symbols
+*.zip
+*.pdb
+
+# Sensitive user-generated data
+*.privatekey.pem
+*.locked
+registry.dat
+check.log
+startup-error.log
